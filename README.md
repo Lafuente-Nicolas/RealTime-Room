@@ -5,6 +5,9 @@ Petit projet d'application temps réel avec :
 - Backend Node.js (API)
 - Frontend web
 - Reverse proxy Nginx
+1. afficher le frontend
+2. rediriger les requêtes API vers le backend
+
 - Docker + Docker Compose
 
 ---
