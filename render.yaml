@@ -6,6 +6,6 @@ services:
     repo: https://github.com/Lafuente-Nicolas/RealTime-Room
     branch: main
     dockerContext: app/api
-    dockerfilePath: Dockerfile
+    dockerfilePath: app/api/dockerfile
     healthCheckPath: /health
     autoDeploy: true
