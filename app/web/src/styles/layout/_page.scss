@@ -1,21 +1,26 @@
+@use "../base/variables" as *;
+@use "../utils/media" as *;
+
 .page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-
-    &__main {
-        flex: 1;
-        padding: 1rem;
-    }
-
-    &__content {
-        display: grid;
-        gap: 1rem;
-    }
 }
 
-@media (min-width: 900px) {
-    .page__content {
+.page__main {
+    flex: 1;
+    padding: $gap;
+    max-width: $container-width;
+    margin: 0 auto;
+}
+
+.page__content {
+    display: grid;
+    gap: $gap;
+    margin-top: $gap;
+
+    @include desktop {
         grid-template-columns: 2fr 1fr;
+        align-items: start;
     }
 }
