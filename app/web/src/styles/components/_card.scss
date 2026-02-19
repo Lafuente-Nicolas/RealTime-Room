@@ -1,0 +1,47 @@
+@use "../base/variables" as *;
+@use "../utils/media" as media;
+
+.card {
+    background: $color-surface;
+    padding: $gap;
+    border-radius: $radius;
+    box-shadow: $shadow-sm;
+    border: 1px solid $color-border;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: $shadow-md;
+    }
+
+    &__title {
+        margin-bottom: 0.5rem;
+    }
+
+    &__cta {
+        margin-top: 1rem;
+        padding: 0.6rem 1.1rem;
+        border-radius: 8px;
+        border: none;
+        background: $color-primary;
+        color: white;
+        font-weight: 500;
+
+        &:hover {
+            background: $color-primary-light;
+        }
+    }
+}
+
+@include media.desktop {
+
+    .card {
+        padding: 2rem;
+        max-width: 500px;
+    }
+
+    .card__title {
+        font-size: 1.5rem;
+    }
+
+}

@@ -2,9 +2,10 @@ services:
   - type: web
     name: realtime-room-api
     runtime: docker
+    plan: free
     repo: https://github.com/Lafuente-Nicolas/RealTime-Room
     branch: main
-    dockerContext: ./app/api
-    dockerfilePath: ./Dockerfile
-    plan: free
+    dockerContext: app/api
+    dockerfilePath: app/api/dockerfile
     healthCheckPath: /health
+    autoDeploy: true
