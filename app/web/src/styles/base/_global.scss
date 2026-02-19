@@ -1,0 +1,19 @@
+@use "./variables" as *;
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    background: $color-bg;
+    color: $color-text;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}

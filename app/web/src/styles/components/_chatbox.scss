@@ -1,0 +1,38 @@
+@use "../base/variables" as *;
+@use "../utils/media" as media;
+
+.chatbox {
+    margin-top: $gap * 2;
+    display: flex;
+    gap: 0.5rem;
+
+    &__input {
+        flex: 1;
+        padding: 0.7rem 0.9rem;
+        border-radius: 8px;
+        border: 1px solid $color-border;
+        background: white;
+    }
+
+    &__send {
+        padding: 0.7rem 1.2rem;
+        border: none;
+        border-radius: 8px;
+        background: $color-primary;
+        color: white;
+        font-weight: 500;
+    }
+}
+
+@include media.desktop {
+
+    .chatbox {
+        max-width: 700px;
+    }
+
+    .chatbox__input {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+}
