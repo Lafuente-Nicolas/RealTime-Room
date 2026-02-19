@@ -1,5 +1,5 @@
 @use "../base/variables" as *;
-@use "../utils/media" as *;
+@use "../utils/media" as media;
 
 .page {
     min-height: 100vh;
@@ -12,15 +12,45 @@
     padding: $gap;
     max-width: $container-width;
     margin: 0 auto;
+    width: 100%;
 }
 
 .page__content {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: $gap;
     margin-top: $gap;
+}
 
-    @include desktop {
-        grid-template-columns: 2fr 1fr;
+@include media.desktop {
+
+    .page__main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
+    }
+
+    .page__content {
+        display: grid;
+        grid-template-columns: minmax(500px, 2fr) 420px;
+        gap: 3rem;
         align-items: start;
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 3rem;
+        height: fit-content;
+        width: 100%;
+    }
+
+    .hero {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .chatbox {
+        margin-top: 2.5rem;
+        max-width: 700px;
     }
 }

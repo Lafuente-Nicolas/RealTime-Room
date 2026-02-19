@@ -1,4 +1,6 @@
+@use "../utils/media" as media;
 @use "../base/variables" as *;
+
 
 .header {
     display: flex;

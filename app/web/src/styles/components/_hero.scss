@@ -1,4 +1,5 @@
 @use "../base/variables" as *;
+@use "../utils/media" as media;
 
 .hero {
     margin-top: $gap * 2;
@@ -12,4 +13,16 @@
         color: $color-muted;
         max-width: 500px;
     }
+}
+
+@include media.desktop {
+
+    .hero__title {
+        font-size: 3rem;
+    }
+
+    .hero__text {
+        font-size: 1.1rem;
+    }
+
 }

@@ -1,4 +1,5 @@
 @use "../base/variables" as *;
+@use "../utils/media" as media;
 
 .card {
     background: $color-surface;
@@ -30,4 +31,17 @@
             background: $color-primary-light;
         }
     }
+}
+
+@include media.desktop {
+
+    .card {
+        padding: 2rem;
+        max-width: 500px;
+    }
+
+    .card__title {
+        font-size: 1.5rem;
+    }
+
 }

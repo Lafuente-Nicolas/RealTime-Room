@@ -1,4 +1,5 @@
 @use "../base/variables" as *;
+@use "../utils/media" as media;
 
 .chatbox {
     margin-top: $gap * 2;
@@ -21,4 +22,17 @@
         color: white;
         font-weight: 500;
     }
+}
+
+@include media.desktop {
+
+    .chatbox {
+        max-width: 700px;
+    }
+
+    .chatbox__input {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
 }
