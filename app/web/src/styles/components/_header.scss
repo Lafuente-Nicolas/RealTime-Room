@@ -1,0 +1,15 @@
+@use "../base/variables" as *;
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem $gap;
+    background: $color-surface;
+    border-bottom: 1px solid $color-border;
+
+    &__logo {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+    }
+}

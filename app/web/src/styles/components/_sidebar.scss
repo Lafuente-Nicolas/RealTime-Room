@@ -1,0 +1,13 @@
+@use "../base/variables" as *;
+
+.sidebar {
+    background: $color-surface;
+    padding: $gap;
+    border-radius: $radius;
+    border: 1px solid $color-border;
+    box-shadow: $shadow-sm;
+
+    &__title {
+        margin-bottom: 0.75rem;
+    }
+}

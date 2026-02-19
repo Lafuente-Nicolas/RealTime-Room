@@ -1,0 +1,15 @@
+@use "../base/variables" as *;
+
+.hero {
+    margin-top: $gap * 2;
+
+    &__title {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    &__text {
+        color: $color-muted;
+        max-width: 500px;
+    }
+}
