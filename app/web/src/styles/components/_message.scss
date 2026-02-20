@@ -1,0 +1,53 @@
+@use "../base/variables" as *;
+
+.message {
+    max-width: 65%;
+    padding: 12px 14px;
+    border-radius: $radius;
+    background: $bg-card;
+    box-shadow: $shadow;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.message:not(.message--self) {
+    align-self: flex-start;
+}
+
+.message--self {
+    align-self: flex-end;
+    background: $bg-self;
+}
+
+.message--system {
+    align-self: center;
+    background: $bg-system;
+    color: $text-soft;
+    font-size: 13px;
+    box-shadow: none;
+}
+
+.message__meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: $text-soft;
+}
+
+.message__author {
+    font-weight: 600;
+}
+
+.message__text {
+    color: $text-main;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    .message {
+        max-width: 85%;
+        font-size: 15px;
+    }
+}

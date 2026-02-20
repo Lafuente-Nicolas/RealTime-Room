@@ -1,27 +1,38 @@
-import Header from "../components/Header/Header";
-import Hero from "../components/Hero/Hero";
-import Card from "../components/Card/Card";
-import Sidebar from "../components/Sidebar/Sidebar";
-import ChatBox from "../components/ChatBox/ChatBox";
-import Footer from "../components/Footer/Footer";
+import { useState } from "react";
 
-export default function Home() {
+export default function Home({ onJoin }) {
+    const [pseudo, setPseudo] = useState("");
+    const [room, setRoom] = useState("");
+
+    const submit = (e) => {
+        e.preventDefault();
+        if (!pseudo || !room) return;
+        onJoin({ pseudo, room });
+    };
+
     return (
-        <div className="page">
-            <Header />
+        <main className="home">
+            <div className="home__box">
+                <h1 className="home__title">Event Chat</h1>
 
-            <main className="page__main">
-                <Hero />
+                <form className="home__form" onSubmit={submit}>
+                    <input
+                        className="home__input"
+                        placeholder="Pseudo"
+                        value={pseudo}
+                        onChange={(e) => setPseudo(e.target.value)}
+                    />
 
-                <section className="page__content">
-                    <Card />
-                    <Sidebar />
-                </section>
+                    <input
+                        className="home__input"
+                        placeholder="Room"
+                        value={room}
+                        onChange={(e) => setRoom(e.target.value)}
+                    />
 
-                <ChatBox />
-            </main>
-
-            <Footer />
-        </div>
+                    <button className="home__button">Rejoindre</button>
+                </form>
+            </div>
+        </main>
     );
 }
