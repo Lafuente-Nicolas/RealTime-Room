@@ -1,16 +1,6 @@
-@use "base/reset";
 @use "base/variables";
-@use "base/global";
+@use "base/base";
 
-@use "utils/mixins";
-@use "utils/media";
-
-@use "layout/page";
-@use "layout/grid";
-
-@use "components/header";
-@use "components/hero";
-@use "components/card";
-@use "components/sidebar";
-@use "components/chatbox";
-@use "components/footer";
+@use "components/message";
+@use "components/home";
+@use "components/chat";

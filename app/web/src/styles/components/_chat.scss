@@ -1,0 +1,106 @@
+@use "../base/variables" as *;
+
+.chat {
+    min-height: 100vh;
+    background: $bg-main;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat__header {
+    background: $bg-card;
+    border-bottom: 1px solid $border;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat__room {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-main;
+}
+
+.chat__pseudo {
+    font-size: 13px;
+    color: $text-soft;
+}
+
+.chat__leave {
+    background: transparent;
+    border: 1px solid $border;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+        background: #f9fafb;
+    }
+}
+
+.chat__messages {
+    flex: 1;
+    padding: 22px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.chat__form {
+    padding: 16px;
+    background: $bg-card;
+    border-top: 1px solid $border;
+    display: flex;
+    gap: 10px;
+}
+
+.chat__input {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid $border;
+    outline: none;
+
+    &:focus {
+        border-color: $primary;
+    }
+}
+
+.chat__send {
+    background: $primary;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+
+    &:hover {
+        background: $primary-dark;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat {
+        &__header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        &__leave {
+            width: 100%;
+        }
+
+        &__form {
+            flex-direction: column;
+        }
+
+        &__send {
+            width: 100%;
+        }
+    }
+}
