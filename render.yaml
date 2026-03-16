@@ -14,7 +14,6 @@ services:
   - type: web
     name: realtime-room-web
     env: static
-    plan: free
     repo: https://github.com/Lafuente-Nicolas/RealTime-Room
     branch: main
     buildCommand: npm install -g pnpm && cd app/web && pnpm install && pnpm run build
