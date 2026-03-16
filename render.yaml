@@ -1,4 +1,5 @@
 services:
+  # 1. back
   - type: web
     name: realtime-room-api
     runtime: docker
@@ -9,3 +10,23 @@ services:
     dockerfilePath: app/api/dockerfile
     healthCheckPath: /health
     autoDeploy: true
+
+  # 2. Ton Frontend
+  - type: static_site
+    name: realtime-room-web
+    plan: free
+    repo: https://github.com/Lafuente-Nicolas/RealTime-Room
+    branch: main
+    # On installe pnpm, on va dans le dossier web, on installe les paquets et on build
+    buildCommand: npm install -g pnpm && cd app/web && pnpm install && pnpm run build
+    # Vite crée un dossier "dist" par défaut après le build
+    publishPath: app/web/dist
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    # On connecte le frontend au backend en lui donnant l'URL de l'API
+    envVars:
+      - key: VITE_API_URL
+        value: https://realtime-room-api.onrender.com
