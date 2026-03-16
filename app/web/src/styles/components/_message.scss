@@ -18,6 +18,15 @@
 .message--self {
     align-self: flex-end;
     background: $color-primary;
+
+    .message__text,
+    .message__author {
+        color: #ffffff;
+    }
+
+    .message__meta {
+        color: rgba(255, 255, 255, 0.8);
+    }
 }
 
 .message--system {
@@ -31,6 +40,8 @@
 .message__meta {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
     font-size: 12px;
     color: $color-muted;
 }
