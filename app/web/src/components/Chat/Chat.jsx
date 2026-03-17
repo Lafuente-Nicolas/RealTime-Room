@@ -9,7 +9,6 @@ export default function Chat({ session }) {
   const [text, setText] = useState("");
 
   useEffect(() => {
-
     socket.connect();
 
     socket.emit("join_room", { pseudo, room });
@@ -25,12 +24,24 @@ export default function Chat({ session }) {
       ]);
     };
 
+    const onGameResult = (data) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          system: true,
+          message: `🎮 JEU : ${data.joueur1} a joué ${data.coup1} | ${data.joueur2} a joué ${data.coup2} ➔ Résultat : ${data.resultat}`
+        }
+      ]);
+    };
+
     socket.on("receive_message", onMessage);
     socket.on("user_joined", onJoin);
+    socket.on("game_result", onGameResult); // Ajout de l'écouteur
 
     return () => {
       socket.off("receive_message", onMessage);
       socket.off("user_joined", onJoin);
+      socket.off("game_result", onGameResult); // Nettoyage de l'écouteur
       socket.disconnect();
     };
   }, [pseudo, room]);
@@ -53,6 +64,15 @@ export default function Chat({ session }) {
     window.location.reload();
   };
 
+  const playGame = (coup) => {
+    socket.emit("play_game", { pseudo, room, coup });
+
+    setMessages((prev) => [
+      ...prev,
+      { system: true, message: `🎮 Vous avez joué ${coup}. En attente de l'adversaire...` }
+    ]);
+  };
+
   return (
     <main className="chat">
       <header className="chat__header">
@@ -71,6 +91,13 @@ export default function Chat({ session }) {
           <Message key={i} msg={m} self={m.pseudo === pseudo} />
         ))}
       </section>
+
+      <div style={{ display: "flex", gap: "10px", padding: "10px 16px", background: "#f9fafb", borderTop: "1px solid #e5e7eb", justifyContent: "center" }}>
+        <span style={{ fontWeight: 600, alignSelf: "center", fontSize: "14px", color: "#6b7280" }}>Jouer :</span>
+        <button onClick={() => playGame('pierre')} style={btnStyle}>🪨 Pierre</button>
+        <button onClick={() => playGame('feuille')} style={btnStyle}>📄 Feuille</button>
+        <button onClick={() => playGame('ciseaux')} style={btnStyle}>✂️ Ciseaux</button>
+      </div>
 
       <form className="chat__form" onSubmit={send}>
         <input
