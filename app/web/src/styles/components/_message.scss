@@ -4,7 +4,11 @@
     max-width: 65%;
     padding: 12px 14px;
     border-radius: $radius;
+<<<<<<< HEAD
     background: $color-surface;
+=======
+    background: $color-bg;
+>>>>>>> 3c2426cdc293b3265746acd13044cbf167007305
     box-shadow: $shadow-sm;
     display: flex;
     flex-direction: column;
@@ -41,7 +45,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+<<<<<<< HEAD
     gap: 15px;
+=======
+    gap: 12px;
+>>>>>>> 3c2426cdc293b3265746acd13044cbf167007305
     font-size: 12px;
     color: $color-muted;
 }

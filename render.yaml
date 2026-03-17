@@ -1,4 +1,5 @@
 services:
+
   - type: web
     name: realtime-room-api
     runtime: docker
@@ -9,3 +10,19 @@ services:
     dockerfilePath: app/api/dockerfile
     healthCheckPath: /health
     autoDeploy: true
+
+  - type: web
+    name: realtime-room-web
+    env: static
+    repo: https://github.com/Lafuente-Nicolas/RealTime-Room
+    branch: main
+    buildCommand: npm install -g pnpm && cd app/web && pnpm install && pnpm run build
+    staticPublishPath: app/web/dist
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        value: https://realtime-room-api.onrender.com

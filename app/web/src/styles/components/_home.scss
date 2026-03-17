@@ -6,22 +6,22 @@
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background: $bg-main;
+    background: $color-bg;
 
     &__box {
-        background: $bg-card;
+        background: $color-surface;
         padding: 2rem;
         border-radius: $radius;
         width: 100%;
-        box-shadow: $shadow;
-        border: 1px solid $border;
+        box-shadow: $shadow-md;
+        border: 1px solid $color-border;
     }
 
     &__title {
         margin-bottom: 1.6rem;
         font-size: 1.5rem;
         font-weight: 600;
-        color: $text-main;
+        color: $color-text;
         text-align: center;
     }
 
@@ -34,15 +34,15 @@
     &__input {
         padding: 0.85rem 0.9rem;
         border-radius: 10px;
-        border: 1px solid $border;
+        border: 1px solid $color-border;
         font-size: 0.95rem;
-        background: white;
+        background: $color-surface;
         outline: none;
         transition: 0.15s;
 
         &:focus {
-            border-color: $primary;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+            border-color: $color-primary;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
         }
     }
 
@@ -51,7 +51,7 @@
         padding: 0.95rem;
         border-radius: 12px;
         border: none;
-        background: $primary;
+        background: $color-primary;
         color: white;
         font-weight: 600;
         cursor: pointer;
@@ -59,12 +59,12 @@
         letter-spacing: 0.2px;
 
         &:hover {
-            background: $primary-dark;
+            background: $color-primary-light;
             transform: translateY(-1px);
         }
     }
 
-    @media (min-width: $desktop) {
+    @media (min-width: 768px) {
         &__box {
             max-width: 420px;
             padding: 2.4rem;
