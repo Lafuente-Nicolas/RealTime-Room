@@ -78,6 +78,17 @@
             border-color: $color-primary;
             color: $color-primary;
         }
+
+        &--cancel {
+            color: #ef4444;
+            border-color: #ef4444;
+
+            &:hover {
+                background: #fef2f2;
+                color: #dc2626;
+                border-color: #dc2626;
+            }
+        }
     }
 }
 
