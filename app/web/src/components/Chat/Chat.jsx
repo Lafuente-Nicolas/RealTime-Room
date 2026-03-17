@@ -7,6 +7,7 @@ export default function Chat({ session }) {
 
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [selectedGame, setSelectedGame] = useState(null);
 
   useEffect(() => {
     socket.connect();
@@ -32,16 +33,27 @@ export default function Chat({ session }) {
           message: `🎮 JEU : ${data.joueur1} a joué ${data.coup1} | ${data.joueur2} a joué ${data.coup2} ➔ Résultat : ${data.resultat}`
         }
       ]);
+
+      setSelectedGame(null);
+    };
+
+    const onOpponentPlayed = (data) => {
+      setMessages((prev) => [
+        ...prev,
+        { system: true, message: `⚠️ ${data.pseudo} a joué à ${data.jeu}. C'est à ton tour !` }
+      ]);
     };
 
     socket.on("receive_message", onMessage);
     socket.on("user_joined", onJoin);
-    socket.on("game_result", onGameResult); // Ajout de l'écouteur
+    socket.on("game_result", onGameResult);
+    socket.on("opponent_played", onOpponentPlayed); // Ajout de l'écouteur
 
     return () => {
       socket.off("receive_message", onMessage);
       socket.off("user_joined", onJoin);
-      socket.off("game_result", onGameResult); // Nettoyage de l'écouteur
+      socket.off("game_result", onGameResult);
+      socket.off("opponent_played", onOpponentPlayed); // Nettoyage
       socket.disconnect();
     };
   }, [pseudo, room]);
@@ -93,10 +105,20 @@ export default function Chat({ session }) {
       </section>
 
       <div className="chat__game">
-        <span className="chat__game-label">Jouer :</span>
-        <button onClick={() => playGame('pierre')} className="chat__game-btn">🪨 Pierre</button>
-        <button onClick={() => playGame('feuille')} className="chat__game-btn">📄 Feuille</button>
-        <button onClick={() => playGame('ciseaux')} className="chat__game-btn">✂️ Ciseaux</button>
+        {!selectedGame ? (
+          <>
+            <span className="chat__game-label">🕹️ Lancer un jeu :</span>
+            <button onClick={() => setSelectedGame('shifumi')} className="chat__game-btn">🪨📄✂️ Shifumi</button>
+          </>
+        ) : selectedGame === 'shifumi' ? (
+          <>
+            <span className="chat__game-label">Shifumi :</span>
+            <button onClick={() => playGame('pierre')} className="chat__game-btn">🪨 Pierre</button>
+            <button onClick={() => playGame('feuille')} className="chat__game-btn">📄 Feuille</button>
+            <button onClick={() => playGame('ciseaux')} className="chat__game-btn">✂️ Ciseaux</button>
+            <button onClick={() => setSelectedGame(null)} className="chat__game-btn chat__game-btn--cancel">✖</button>
+          </>
+        ) : null}
       </div>
 
       <form className="chat__form" onSubmit={send}>
