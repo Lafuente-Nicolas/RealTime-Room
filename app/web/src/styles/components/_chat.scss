@@ -2,14 +2,14 @@
 
 .chat {
     min-height: 100vh;
-    background: $bg-main;
+    background: $color-bg;
     display: flex;
     flex-direction: column;
 }
 
 .chat__header {
-    background: $bg-card;
-    border-bottom: 1px solid $border;
+    background: $color-surface;
+    border-bottom: 1px solid $color-border;
     padding: 16px 20px;
     display: flex;
     justify-content: space-between;
@@ -19,17 +19,17 @@
 .chat__room {
     font-size: 18px;
     font-weight: 600;
-    color: $text-main;
+    color: $color-text;
 }
 
 .chat__pseudo {
     font-size: 13px;
-    color: $text-soft;
+    color: $color-muted;
 }
 
 .chat__leave {
     background: transparent;
-    border: 1px solid $border;
+    border: 1px solid $color-border;
     padding: 8px 14px;
     border-radius: 8px;
     cursor: pointer;
@@ -51,8 +51,8 @@
 
 .chat__form {
     padding: 16px;
-    background: $bg-card;
-    border-top: 1px solid $border;
+    background: $color-surface;
+    border-top: 1px solid $color-border;
     display: flex;
     gap: 10px;
 }
@@ -61,16 +61,16 @@
     flex: 1;
     padding: 12px 14px;
     border-radius: 10px;
-    border: 1px solid $border;
+    border: 1px solid $color-border;
     outline: none;
 
     &:focus {
-        border-color: $primary;
+        border-color: $color-primary;
     }
 }
 
 .chat__send {
-    background: $primary;
+    background: $color-primary;
     color: white;
     border: none;
     padding: 12px 18px;
@@ -79,7 +79,7 @@
     font-weight: 500;
 
     &:hover {
-        background: $primary-dark;
+        background: $color-primary-light;
     }
 }
 
