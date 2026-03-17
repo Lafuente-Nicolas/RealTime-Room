@@ -4,8 +4,8 @@
     max-width: 65%;
     padding: 12px 14px;
     border-radius: $radius;
-    background: $bg-card;
-    box-shadow: $shadow;
+    background: $color-surface;
+    box-shadow: $shadow-sm;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -17,13 +17,22 @@
 
 .message--self {
     align-self: flex-end;
-    background: $bg-self;
+    background: $color-primary;
+
+    .message__text,
+    .message__author {
+        color: #ffffff;
+    }
+
+    .message__meta {
+        color: rgba(255, 255, 255, 0.8);
+    }
 }
 
 .message--system {
     align-self: center;
-    background: $bg-system;
-    color: $text-soft;
+    background: $color-surface;
+    color: $color-muted;
     font-size: 13px;
     box-shadow: none;
 }
@@ -31,8 +40,10 @@
 .message__meta {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 15px;
     font-size: 12px;
-    color: $text-soft;
+    color: $color-muted;
 }
 
 .message__author {
@@ -40,7 +51,7 @@
 }
 
 .message__text {
-    color: $text-main;
+    color: $color-text;
     line-height: 1.4;
     word-break: break-word;
 }
