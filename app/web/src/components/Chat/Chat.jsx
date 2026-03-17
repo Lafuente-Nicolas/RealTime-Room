@@ -9,7 +9,6 @@ export default function Chat({ session }) {
   const [text, setText] = useState("");
 
   useEffect(() => {
-
     socket.connect();
 
     socket.emit("join_room", { pseudo, room });
@@ -25,12 +24,24 @@ export default function Chat({ session }) {
       ]);
     };
 
+    const onGameResult = (data) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          system: true,
+          message: `🎮 JEU : ${data.joueur1} a joué ${data.coup1} | ${data.joueur2} a joué ${data.coup2} ➔ Résultat : ${data.resultat}`
+        }
+      ]);
+    };
+
     socket.on("receive_message", onMessage);
     socket.on("user_joined", onJoin);
+    socket.on("game_result", onGameResult); // Ajout de l'écouteur
 
     return () => {
       socket.off("receive_message", onMessage);
       socket.off("user_joined", onJoin);
+      socket.off("game_result", onGameResult); // Nettoyage de l'écouteur
       socket.disconnect();
     };
   }, [pseudo, room]);
@@ -53,6 +64,15 @@ export default function Chat({ session }) {
     window.location.reload();
   };
 
+  const playGame = (coup) => {
+    socket.emit("play_game", { pseudo, room, coup });
+
+    setMessages((prev) => [
+      ...prev,
+      { system: true, message: `🎮 Vous avez joué ${coup}. En attente de l'adversaire...` }
+    ]);
+  };
+
   return (
     <main className="chat">
       <header className="chat__header">
@@ -71,6 +91,13 @@ export default function Chat({ session }) {
           <Message key={i} msg={m} self={m.pseudo === pseudo} />
         ))}
       </section>
+
+      <div className="chat__game">
+        <span className="chat__game-label">Jouer :</span>
+        <button onClick={() => playGame('pierre')} className="chat__game-btn">🪨 Pierre</button>
+        <button onClick={() => playGame('feuille')} className="chat__game-btn">📄 Feuille</button>
+        <button onClick={() => playGame('ciseaux')} className="chat__game-btn">✂️ Ciseaux</button>
+      </div>
 
       <form className="chat__form" onSubmit={send}>
         <input
