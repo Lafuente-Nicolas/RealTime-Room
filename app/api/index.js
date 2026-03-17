@@ -34,13 +34,11 @@ io.on("connection", (socket) => {
 
     socket.on("send_message", (data) => {
         const { room, pseudo, message } = data;
-        const messageData = {
+        io.to(room).emit("receive_message", {
             pseudo,
             message,
             date: Date.now(),
-        };
-
-        io.to(room).emit("receive_message", messageData);
+        });
     });
 
     socket.on("play_game", (data) => {
@@ -55,6 +53,8 @@ io.on("connection", (socket) => {
         if (!game.joueur1) {
             game.joueur1 = pseudo;
             game.coup1 = coup;
+
+            socket.to(room).emit("opponent_played", { pseudo: pseudo, jeu: "Shifumi" });
         }
 
         else if (game.joueur1 !== pseudo && !game.joueur2) {
