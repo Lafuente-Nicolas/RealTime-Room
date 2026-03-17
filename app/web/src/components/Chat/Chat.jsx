@@ -92,11 +92,11 @@ export default function Chat({ session }) {
         ))}
       </section>
 
-      <div style={{ display: "flex", gap: "10px", padding: "10px 16px", background: "#f9fafb", borderTop: "1px solid #e5e7eb", justifyContent: "center" }}>
-        <span style={{ fontWeight: 600, alignSelf: "center", fontSize: "14px", color: "#6b7280" }}>Jouer :</span>
-        <button onClick={() => playGame('pierre')} style={btnStyle}>🪨 Pierre</button>
-        <button onClick={() => playGame('feuille')} style={btnStyle}>📄 Feuille</button>
-        <button onClick={() => playGame('ciseaux')} style={btnStyle}>✂️ Ciseaux</button>
+      <div className="chat__game">
+        <span className="chat__game-label">Jouer :</span>
+        <button onClick={() => playGame('pierre')} className="chat__game-btn">🪨 Pierre</button>
+        <button onClick={() => playGame('feuille')} className="chat__game-btn">📄 Feuille</button>
+        <button onClick={() => playGame('ciseaux')} className="chat__game-btn">✂️ Ciseaux</button>
       </div>
 
       <form className="chat__form" onSubmit={send}>
