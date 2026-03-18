@@ -78,6 +78,17 @@
             border-color: $color-primary;
             color: $color-primary;
         }
+
+        &--cancel {
+            color: #ef4444;
+            border-color: #ef4444;
+
+            &:hover {
+                background: #fef2f2;
+                color: #dc2626;
+                border-color: #dc2626;
+            }
+        }
     }
 }
 
@@ -112,6 +123,49 @@
 
     &:hover {
         background: $color-primary-light;
+    }
+}
+
+.chat__morpion-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.chat__morpion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    background: $color-border;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.chat__morpion-cell {
+    width: 40px;
+    height: 40px;
+    background: $color-surface;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    color: $color-text;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #f3f4f6;
+    }
+
+    &[data-value="X"] {
+        color: $color-primary;
+    }
+
+    &[data-value="O"] {
+        color: #ef4444;
     }
 }
 
