@@ -14,13 +14,13 @@ describe('Logique du jeu Morpion', () => {
         expect(nouveauPlateau[0]).toBe('X');
     });
     it('ne devrait pas modifier le plateau si la case est déjà prise', () => {
-        // Arrange : On crée un plateau où la case 0 est déjà prise par 'O'
+        // On crée un plateau où la case 0 est déjà prise par 'O'
         const plateauPris = ['O', null, null, null, null, null, null, null, null];
 
-        // Act : Le joueur 'X' essaie de jouer sur la case 0
+        // Le joueur 'X' essaie de jouer sur la case 0
         const resultat = playMove(plateauPris, 0, 'X');
 
-        // Assert : La case 0 doit TOUJOURS être 'O', elle n'a pas changé
+        // La case 0 doit TOUJOURS être 'O', elle n'a pas changé
         expect(resultat[0]).toBe('O');
     })
 });
