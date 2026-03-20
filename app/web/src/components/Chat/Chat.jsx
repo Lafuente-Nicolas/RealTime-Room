@@ -4,6 +4,7 @@ import Message from "../Message/Message";
 import Shifumi from "./Shifumi";
 import Morpion from "./Morpion";
 import Puissance4 from "./Puissance4";
+import Uno from "./Uno";
 
 export default function Chat({ session }) {
   const { pseudo, room } = session;
@@ -11,12 +12,6 @@ export default function Chat({ session }) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [selectedGame, setSelectedGame] = useState(null);
-
-  const [morpionBoard, setMorpionBoard] = useState(Array(9).fill(null));
-  const [p4Board, setP4Board] = useState(Array(6).fill(null).map(() => Array(7).fill(null)));
-
-  const [gameLocked, setGameLocked] = useState(false);
-
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -27,80 +22,79 @@ export default function Chat({ session }) {
     socket.connect();
     socket.emit("join_room", { pseudo, room });
 
-    const onMessage = (msg) => setMessages((prev) => [...prev, msg]);
-    const onJoin = ({ pseudo }) => setMessages((prev) => [...prev, { system: true, message: `${pseudo} a rejoint la room` }]);
+    const onSystemMsg = (message) => setMessages((prev) => [...prev, { system: true, message }]);
 
-    const onGameResult = (data) => {
-      setMessages((prev) => [...prev, { system: true, message: `🎮 JEU : ${data.joueur1} a joué ${data.coup1} | ${data.joueur2} a joué ${data.coup2} ➔ Résultat : ${data.resultat}` }]);
-      setSelectedGame(null);
-    };
-
-    const onOpponentPlayed = (data) => setMessages((prev) => [...prev, { system: true, message: `⚠️ ${data.pseudo} a joué à ${data.jeu}. C'est à ton tour !` }]);
-
-    const onMorpionUpdate = (data) => {
-      setMorpionBoard(data.plateau);
-      if (data.message) {
-        setGameLocked(true);
-        setMessages((prev) => [...prev, { system: true, message: `⭕❌ MORPION : ${data.message}` }]);
-        setTimeout(() => {
-          setSelectedGame(null);
-          setMorpionBoard(Array(9).fill(null));
-          setGameLocked(false);
-        }, 3000);
+    // ✅ CORRECTION ICI : On intercepte le "Système" du UNO pour l'afficher proprement
+    const onMessage = (msg) => {
+      if (msg.pseudo === "Système" || msg.system) {
+        onSystemMsg(msg.message);
+      } else {
+        setMessages((prev) => [...prev, msg]);
       }
     };
 
-    const onP4Update = (data) => {
-      setP4Board(data.plateau);
-      if (data.message) {
-        setGameLocked(true);
-        setMessages((prev) => [...prev, { system: true, message: `🔴🟡 PUISSANCE 4 : ${data.message}` }]);
-        setTimeout(() => {
-          setSelectedGame(null);
-          setP4Board(Array(6).fill(null).map(() => Array(7).fill(null)));
-          setGameLocked(false);
-        }, 3000);
+    const onJoin = ({ pseudo }) => onSystemMsg(`${pseudo} a rejoint le salon principal`);
+    const onOpponentPlayed = (data) => onSystemMsg(`⚠️ ${data.pseudo} a joué à ${data.jeu}. C'est à ton tour !`);
+    const onGameLaunched = (data) => onSystemMsg(data.message);
+    const onGameResult = (data) => onSystemMsg(`🎮 JEU : ${data.joueur1} a joué ${data.coup1} | ${data.joueur2} a joué ${data.coup2} ➔ Résultat : ${data.resultat}`);
+
+    const onMorpionFinished = (data) => {
+      if (data && data.winner) {
+        onSystemMsg(`🏆 ${data.winner} a remporté la partie de Morpion !`);
+      } else if (data && data.winner === null) {
+        onSystemMsg(`🤝 La partie de Morpion s'est terminée sur un match nul !`);
       }
     };
 
-    const onGameLaunched = (data) => {
-      setMessages((prev) => [...prev, { system: true, message: data.message }]);
+    const onShifumiFinished = (data) => {
+      if (data && data.winner) {
+        onSystemMsg(`🏆 ${data.winner} a remporté le Shifumi !`);
+      } else if (data && data.winner === null) {
+        onSystemMsg(`🤝 Le duel de Shifumi s'est terminé sur une égalité !`);
+      }
     };
 
-    const onGameCancelled = (data) => {
-      setMessages((prev) => [...prev, { system: true, message: data.message }]);
-      setSelectedGame(null);
-      setMorpionBoard(Array(9).fill(null));
-      setP4Board(Array(6).fill(null).map(() => Array(7).fill(null)));
-      setGameLocked(false);
+    const onP4Finished = (data) => {
+      if (data && data.winner) {
+        onSystemMsg(`🏆 ${data.winner} a remporté la partie de Puissance 4 !`);
+      } else if (data && data.winner === null) {
+        onSystemMsg(`🤝 La partie de Puissance 4 s'est terminée sur un match nul !`);
+      }
+    };
+
+    const onUnoFinished = (data) => {
+      if (data && data.vainqueur) {
+        onSystemMsg(`🏆 ${data.vainqueur} a remporté le UNO ! Félicitations !`);
+      }
     };
 
     socket.on("receive_message", onMessage);
     socket.on("user_joined", onJoin);
     socket.on("game_result", onGameResult);
     socket.on("opponent_played", onOpponentPlayed);
-    socket.on("morpion_update", onMorpionUpdate);
-    socket.on("p4_update", onP4Update);
     socket.on("game_launched", onGameLaunched);
-    socket.on("game_cancelled", onGameCancelled);
+    socket.on("morpion_result", onMorpionFinished);
+    socket.on("shifumi_result", onShifumiFinished);
+    socket.on("puissance4_result", onP4Finished);
+    socket.on("uno_finished", onUnoFinished);
 
     return () => {
       socket.off("receive_message", onMessage);
       socket.off("user_joined", onJoin);
       socket.off("game_result", onGameResult);
       socket.off("opponent_played", onOpponentPlayed);
-      socket.off("morpion_update", onMorpionUpdate);
-      socket.off("p4_update", onP4Update);
       socket.off("game_launched", onGameLaunched);
-      socket.off("game_cancelled", onGameCancelled);
-      socket.disconnect();
+      socket.off("morpion_result", onMorpionFinished);
+      socket.off("shifumi_result", onShifumiFinished);
+      socket.off("puissance4_result", onP4Finished);
+      socket.off("uno_finished", onUnoFinished);
     };
   }, [pseudo, room]);
 
   const send = (e) => {
     e.preventDefault();
     if (!text.trim()) return;
-    socket.emit("send_message", { pseudo, room, message: text });
+    socket.emit("send_message", { targetRoom: room, pseudo, message: text });
     setText("");
   };
 
@@ -109,40 +103,16 @@ export default function Chat({ session }) {
     window.location.reload();
   };
 
-  const playGame = (coup) => {
-    socket.emit("play_game", { pseudo, room, coup });
-    setMessages((prev) => [...prev, { system: true, message: `🎮 Vous avez joué ${coup}. En attente de l'adversaire...` }]);
-  };
-
   const handleSelectGame = (gameName) => {
     setSelectedGame(gameName);
-    setGameLocked(false);
-
-    if (gameName === 'morpion') setMorpionBoard(Array(9).fill(null));
-    if (gameName === 'puissance4') setP4Board(Array(6).fill(null).map(() => Array(7).fill(null)));
-
-    let jeuFormatte = 'Shifumi';
-    if (gameName === 'morpion') jeuFormatte = 'Morpion';
-    if (gameName === 'puissance4') jeuFormatte = 'Puissance4';
-
-    socket.emit("launch_game", { pseudo, room, jeu: jeuFormatte });
   };
 
-  const handleCancelGame = (gameName) => {
-    let jeuFormatte = 'Shifumi';
-    if (gameName === 'morpion') jeuFormatte = 'Morpion';
-    if (gameName === 'puissance4') jeuFormatte = 'Puissance4';
-    socket.emit("cancel_game", { pseudo, room, jeu: jeuFormatte });
+  const resetGameState = () => {
+    setSelectedGame(null);
   };
 
-  const playMorpion = (index) => {
-    if (gameLocked) return;
-    socket.emit("play_morpion", { pseudo, room, index });
-  };
-
-  const playPuissance4 = (colIndex) => {
-    if (gameLocked) return;
-    socket.emit("play_puissance4", { pseudo, room, index: colIndex });
+  const handleCancelGame = () => {
+    resetGameState();
   };
 
   return (
@@ -155,51 +125,46 @@ export default function Chat({ session }) {
         <button className="chat__leave" onClick={leave}>Quitter</button>
       </header>
 
-      <section className="chat__messages">
-        {messages.map((m, i) => (
-          <Message key={i} msg={m} self={m.pseudo === pseudo} />
-        ))}
+      <div className={`chat__layout ${selectedGame ? 'chat__layout--split' : ''}`}>
+        <div className="chat__game-zone">
+          <div className="chat__game">
 
-        <div ref={messagesEndRef} />
-      </section>
+            {!selectedGame && (
+              <>
+                <span className="chat__game-label">🕹️ Lancer un jeu :</span>
+                <button onClick={() => handleSelectGame('uno')} className="chat__game-btn">🃏 UNO Multijoueur</button>
+                <button onClick={() => handleSelectGame('shifumi')} className="chat__game-btn">🪨📄✂️ Shifumi</button>
+                <button onClick={() => handleSelectGame('morpion')} className="chat__game-btn">⭕❌ Morpion</button>
+                <button onClick={() => handleSelectGame('puissance4')} className="chat__game-btn">🔴🟡 Puissance 4</button>
+              </>
+            )}
 
-      <div className="chat__game">
-        {!selectedGame ? (
-          <>
-            <span className="chat__game-label">🕹️ Lancer un jeu :</span>
-            <button onClick={() => handleSelectGame('shifumi')} className="chat__game-btn">🪨📄✂️ Shifumi</button>
-            <button onClick={() => handleSelectGame('morpion')} className="chat__game-btn">⭕❌ Morpion</button>
-            <button onClick={() => handleSelectGame('puissance4')} className="chat__game-btn">🔴🟡 Puissance 4</button>
-          </>
-        ) : selectedGame === 'shifumi' ? (
-          <Shifumi
-            playGame={playGame}
-            handleCancelGame={handleCancelGame}
-          />
-        ) : selectedGame === 'morpion' ? (
-          <Morpion
-            board={morpionBoard}
-            playMorpion={playMorpion}
-            handleCancelGame={handleCancelGame}
-          />
-        ) : selectedGame === 'puissance4' ? (
-          <Puissance4
-            board={p4Board}
-            playPuissance4={playPuissance4}
-            handleCancelGame={handleCancelGame}
-          />
-        ) : null}
+            {selectedGame === 'shifumi' && <Shifumi room={room} pseudo={pseudo} onCancel={handleCancelGame} onFinish={resetGameState} />}
+            {selectedGame === 'morpion' && <Morpion room={room} pseudo={pseudo} onCancel={handleCancelGame} onFinish={resetGameState} />}
+            {selectedGame === 'puissance4' && <Puissance4 room={room} pseudo={pseudo} onCancel={handleCancelGame} onFinish={resetGameState} />}
+            {selectedGame === 'uno' && <Uno room={room} pseudo={pseudo} onCancel={handleCancelGame} />}
+
+          </div>
+        </div>
+
+        <aside className="chat__sidebar">
+          <section className="chat__messages">
+            {messages.map((m, i) => (
+              <Message key={i} msg={m} self={m.pseudo === pseudo} />
+            ))}
+            <div ref={messagesEndRef} />
+          </section>
+          <form className="chat__form" onSubmit={send}>
+            <input
+              className="chat__input"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Écrire un message..."
+            />
+            <button className="chat__send">Envoyer</button>
+          </form>
+        </aside>
       </div>
-
-      <form className="chat__form" onSubmit={send}>
-        <input
-          className="chat__input"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Écrire un message..."
-        />
-        <button className="chat__send">Envoyer</button>
-      </form>
     </main>
   );
 }
