@@ -23,7 +23,7 @@ export const registerPuissance4Handlers = (io, socket, games) => {
         if (gameId) {
             const game = games[gameId];
             if (game.status === 'playing') {
-                // ✅ SÉCURITÉ : On vérifie s'il y a bien un adversaire
+                // On vérifie s'il y a bien un adversaire
                 const winnerPseudo = game.joueurs.find(p => p !== pseudo) || 'Personne';
                 game.status = 'result';
                 game.result = {
@@ -84,22 +84,17 @@ export const registerPuissance4Handlers = (io, socket, games) => {
         const game = games[gameId];
         if (!game || game.status !== 'playing') return;
 
-        // C'est bien son tour ?
         if (game.tourDe !== pseudo) return;
 
         const symboleActuel = game.symboles[pseudo];
         const ancienneGrilleJSON = JSON.stringify(game.plateau);
 
-        // On utilise TA fonction playMove
         game.plateau = playMove(game.plateau, colonneIndex, symboleActuel);
 
-        // Si la grille n'a pas changé (la colonne était pleine), on annule l'action
         if (ancienneGrilleJSON === JSON.stringify(game.plateau)) return;
 
-        // On utilise TA fonction calculateWinner
         const gagnantSymbole = calculateWinner(game.plateau);
 
-        // Vérification d'égalité (la ligne du haut est totalement remplie)
         const estPlein = game.plateau[0].every(cell => cell !== null);
 
         if (gagnantSymbole) {
@@ -127,7 +122,6 @@ export const registerPuissance4Handlers = (io, socket, games) => {
             }, 3000);
 
         } else {
-            // Passe au joueur suivant
             game.tourDe = game.joueurs.find(p => p !== pseudo);
             syncGame(gameId);
         }
