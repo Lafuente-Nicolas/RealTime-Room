@@ -34,7 +34,7 @@ const choices = [
     { id: 'ciseaux', name: 'Ciseaux', icon: <ScissorsIcon /> },
 ];
 
-export default function Shifumi({ room, pseudo, onCancel }) {
+export default function Shifumi({ room, pseudo, onCancel, onFinish }) { // ✅ AJOUT DE onFinish
     const [lobbies, setLobbies] = useState([]);
     const [game, setGame] = useState(null);
 
@@ -43,18 +43,22 @@ export default function Shifumi({ room, pseudo, onCancel }) {
 
         socket.on("shifumi_lobbies_update", setLobbies);
         socket.on("shifumi_sync", setGame); // Met à jour tout l'affichage d'un coup
-        socket.on("shifumi_finished", onCancel);
+
+        // ✅ CORRECTION : on appelle onFinish au lieu de onCancel à la fin de la partie
+        socket.on("shifumi_finished", onFinish);
 
         return () => {
             socket.off("shifumi_lobbies_update");
             socket.off("shifumi_sync");
             socket.off("shifumi_finished");
         };
-    }, [room, onCancel]);
+    }, [room, onFinish]); // ✅ Remplacement de onCancel par onFinish
 
     const createChallenge = () => socket.emit("create_shifumi_challenge", { room, pseudo });
     const acceptChallenge = (id) => socket.emit("accept_shifumi_challenge", { room, pseudo, gameId: id });
     const makePlay = (id) => socket.emit("play_game_shifumi", { gameId: game.id, pseudo, coup: id });
+
+    // On garde onCancel uniquement pour le bouton "Fermer / Abandonner" (la croix)
     const handleClose = () => {
         socket.emit("cancel_shifumi_challenge", { room, pseudo });
         onCancel();
