@@ -24,13 +24,17 @@ export const registerShifumiHandlers = (io, socket, games) => {
         if (gameId) {
             const game = games[gameId];
             if (game.status === 'playing') {
+                const winnerPseudo = game.joueurs.find(p => p !== pseudo);
                 game.status = 'result';
                 game.result = {
                     p1_pseudo: game.joueurs[0], p1_coup: 'abandon',
                     p2_pseudo: game.joueurs[1] || 'Personne', p2_coup: 'abandon',
-                    winner: game.joueurs.find(p => p !== pseudo),
-                    message: `🛑 ${pseudo} a fui !`
+                    winner: winnerPseudo,
+                    message: `${pseudo} a fui le combat !` 
                 };
+
+                io.to(gameId).emit("shifumi_result", { winner: winnerPseudo });
+
                 syncGame(gameId);
                 setTimeout(() => {
                     io.to(gameId).emit("shifumi_finished");
@@ -52,6 +56,8 @@ export const registerShifumiHandlers = (io, socket, games) => {
         };
         socket.join(gameId);
         sendLobbies(room);
+
+        io.to(socket.id).emit("shifumi_update", { status: 'waiting', gameId: gameId });
         syncGame(gameId);
     });
 
@@ -65,6 +71,8 @@ export const registerShifumiHandlers = (io, socket, games) => {
         game.status = 'playing';
 
         sendLobbies(room);
+
+        io.to(gameId).emit("shifumi_update", { status: 'playing', gameId: gameId });
         syncGame(gameId);
     });
 
@@ -88,8 +96,10 @@ export const registerShifumiHandlers = (io, socket, games) => {
                 p1_pseudo: p1, p1_coup: game.coups[p1],
                 p2_pseudo: p2, p2_coup: game.coups[p2],
                 winner: winner,
-                message: res === 'Egalité' ? "Match nul ! 🤝" : `${winner} gagne ! 🏆`
+                message: res === 'Egalité' ? "Match nul" : `${winner} gagne la manche`
             };
+
+            io.to(gameId).emit("shifumi_result", { winner: winner });
 
             setTimeout(() => {
                 game.status = 'result';
@@ -99,7 +109,7 @@ export const registerShifumiHandlers = (io, socket, games) => {
             setTimeout(() => {
                 io.to(gameId).emit("shifumi_finished");
                 delete games[gameId];
-            }, 6000);
+            }, 2000);
         }
     });
 };
