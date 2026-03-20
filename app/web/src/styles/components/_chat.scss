@@ -5,230 +5,298 @@
     background: $color-bg;
     display: flex;
     flex-direction: column;
-}
 
-.chat__header {
-    background: $color-surface;
-    border-bottom: 1px solid $color-border;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.chat__room {
-    font-size: 18px;
-    font-weight: 600;
-    color: $color-text;
-}
-
-.chat__pseudo {
-    font-size: 13px;
-    color: $color-muted;
-}
-
-.chat__leave {
-    background: transparent;
-    border: 1px solid $color-border;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-
-    &:hover {
-        background: #f9fafb;
-    }
-}
-
-.chat__messages {
-    flex: 1;
-    padding: 22px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.chat__game {
-    display: flex;
-    gap: 10px;
-    padding: 10px 16px;
-    background: #f9fafb;
-    border-top: 1px solid $color-border;
-    justify-content: center;
-    align-items: center;
-
-    &-label {
-        font-weight: 600;
-        font-size: 14px;
-        color: $color-muted;
-    }
-
-    &-btn {
-        padding: 6px 12px;
-        border-radius: 8px;
-        border: 1px solid $color-border;
+    &__header {
         background: $color-surface;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
-        transition: 0.2s;
+        border-bottom: 1px solid $color-border;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        &:hover {
-            border-color: $color-primary;
-            color: $color-primary;
-        }
-
-        &--cancel {
-            color: #ef4444;
-            border-color: #ef4444;
-
-            &:hover {
-                background: #fef2f2;
-                color: #dc2626;
-                border-color: #dc2626;
-            }
-        }
-    }
-}
-
-.chat__form {
-    padding: 16px;
-    background: $color-surface;
-    border-top: 1px solid $color-border;
-    display: flex;
-    gap: 10px;
-}
-
-.chat__input {
-    flex: 1;
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid $color-border;
-    outline: none;
-
-    &:focus {
-        border-color: $color-primary;
-    }
-}
-
-.chat__send {
-    background: $color-primary;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
-
-    &:hover {
-        background: $color-primary-light;
-    }
-}
-
-.chat__morpion-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.chat__morpion-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    background: $color-border;
-    padding: 5px;
-    border-radius: 8px;
-}
-
-.chat__morpion-cell {
-    width: 40px;
-    height: 40px;
-    background: $color-surface;
-    border: none;
-    border-radius: 4px;
-    font-size: 20px;
-    font-weight: bold;
-    color: $color-text;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.2s;
-
-    &:hover {
-        background: #f3f4f6;
-    }
-
-    &[data-value="X"] {
-        color: $color-primary;
-    }
-
-    &[data-value="O"] {
-        color: #ef4444;
-    }
-}
-
-.chat__p4-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-.chat__p4-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    background: #2563eb;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.chat__p4-cell {
-    width: 35px;
-    height: 35px;
-    background: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
-    transition: background 0.3s ease;
-
-    &[data-color="R"] {
-        background: #ef4444;
-        box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    &[data-color="J"] {
-        background: #eab308;
-        box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    &:hover:not([data-color="R"]):not([data-color="J"]) {
-        background: #f3f4f6;
-    }
-}
-
-@media (max-width: 768px) {
-    .chat {
-        &__header {
+        @media (max-width: 768px) {
             flex-direction: column;
             align-items: flex-start;
             gap: 10px;
         }
+    }
 
-        &__leave {
-            width: 100%;
+    &__infos {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__room {
+        font-size: 18px;
+        font-weight: 600;
+        color: $color-text;
+    }
+
+    &__pseudo {
+        font-size: 13px;
+        color: $color-muted;
+    }
+
+    &__leave {
+        background: transparent;
+        border: 1px solid $color-border;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+            background: #f9fafb;
         }
 
-        &__form {
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    // --- LAYOUT ET SIDEBAR ---
+    &__layout {
+        display: flex;
+        flex-direction: row;
+        height: calc(100vh - 75px);
+        width: 100%;
+        overflow: hidden;
+
+        &--split {
+            @media (max-width: 768px) {
+                flex-direction: column;
+            }
+        }
+    }
+
+    &__game-zone {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background: #111827; // Fond sombre pour la zone de jeu
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__sidebar {
+        width: 320px;
+        min-width: 320px;
+        display: flex;
+        flex-direction: column;
+        background: $color-surface;
+        border-left: 1px solid $color-border;
+        height: 100%;
+
+        .chat__layout--split & {
+            @media (max-width: 768px) {
+                width: 100%;
+                min-width: 100%;
+                height: 40vh; // Prend 40% de l'écran sur mobile
+                border-left: none;
+                border-top: 2px solid $color-border;
+            }
+        }
+    }
+
+    &__messages {
+        flex: 1;
+        padding: 15px 22px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    // --- FORMULAIRE ET BOUTONS ---
+    &__form {
+        padding: 15px;
+        background: $color-surface;
+        border-top: 1px solid $color-border;
+        display: flex;
+        gap: 10px;
+
+        @media (max-width: 768px) {
             flex-direction: column;
         }
+    }
 
-        &__send {
+    &__input {
+        flex: 1;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid $color-border;
+        outline: none;
+
+        &:focus {
+            border-color: $color-primary;
+        }
+    }
+
+    &__send {
+        background: $color-primary;
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+
+        &:hover {
+            background: $color-primary-light;
+        }
+
+        @media (max-width: 768px) {
             width: 100%;
         }
+    }
+
+    // --- ZONE BOUTONS JEUX (MENU) ---
+    &__game {
+        display: flex;
+        flex-wrap: wrap; // Permet aux boutons de passer à la ligne sur petit écran
+        gap: 10px;
+        padding: 10px 16px;
+        background: #f9fafb;
+        border-radius: 12px;
+        justify-content: center;
+        align-items: center;
+
+        &-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: $color-muted;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        &-btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid $color-border;
+            background: $color-surface;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.2s;
+
+            &:hover:not(:disabled) {
+                border-color: $color-primary;
+                color: $color-primary;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            &--cancel {
+                color: #ef4444;
+                border-color: #ef4444;
+
+                &:hover:not(:disabled) {
+                    background: #fef2f2;
+                    color: #dc2626;
+                    border-color: #dc2626;
+                }
+            }
+
+            &--small {
+                margin: 0;
+                padding: 8px 15px;
+            }
+        }
+    }
+
+    // --- UNO LOBBY ---
+    &__uno-lobby {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    &__uno-title {
+        color: white;
+        font-size: 18px;
+    }
+
+    &__uno-option {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: white;
+
+        label {
+            font-weight: 500;
+        }
+    }
+
+    &__uno-select {
+        &--small {
+            width: 60px;
+        }
+
+        &--large {
+            width: 140px;
+        }
+    }
+
+    &__uno-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    &__uno-list {
+        margin-top: 30px;
+        border-top: 1px solid gray;
+        padding-top: 15px;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    &__uno-list-title {
+        color: #22c55e;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    &__uno-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    &__uno-item-text {
+        color: white;
+        text-align: left;
+    }
+
+    &__uno-item-details {
+        color: #9ca3af;
+    }
+
+    &__uno-waiting {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__uno-waiting-title {
+        color: #facc15;
+        font-size: 18px;
+    }
+
+    &__uno-waiting-text {
+        color: white;
+        font-size: 14px;
+        margin-bottom: 20px;
     }
 }
