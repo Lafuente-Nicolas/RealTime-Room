@@ -1,0 +1,209 @@
+.morpion-container {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 15px;
+    color: white;
+    width: 350px;
+    margin: 10px auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+
+    .morpion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #334155;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+
+        h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #f8fafc;
+        }
+
+        .morpion-cancel {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    .morpion-main-btn {
+        width: 100%;
+        padding: 12px;
+        background: #6366f1;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+
+        &:hover {
+            background: #4f46e5;
+        }
+    }
+
+    .morpion-challenge-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #334155;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+
+        .morpion-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background: #16a34a;
+            }
+        }
+    }
+
+    .morpion-status-bar {
+        text-align: center;
+        margin-bottom: 15px;
+
+        .status-tag {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+
+            &.done {
+                background: #10b981;
+                color: white;
+            }
+
+            &.waiting {
+                background: #475569;
+                color: #cbd5e1;
+            }
+        }
+    }
+
+    .morpion-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 280px;
+
+        .morpion-cell {
+            aspect-ratio: 1;
+            background: #334155;
+            border: 2px solid #475569;
+            border-radius: 12px;
+            font-size: 3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: transparent;
+
+            &:not(:disabled):hover {
+                background: #475569;
+                transform: scale(1.05);
+            }
+
+            &:disabled {
+                cursor: not-allowed;
+            }
+
+            &.cell-x {
+                color: #ef4444;
+            }
+
+            &.cell-o {
+                color: #3b82f6;
+            }
+
+        }
+    }
+
+    .result-grid .morpion-cell {
+        opacity: 0.7;
+    }
+
+    .result-status-banner {
+        text-align: center;
+        margin-bottom: 20px;
+
+        h2 {
+            font-size: 2rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .win-text {
+            color: #10b981;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .lose-text {
+            color: #ef4444;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+        }
+
+        .draw-text {
+            color: #94a3b8;
+        }
+    }
+
+    .result-summary {
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #f8fafc;
+    }
+}
+
+.morpion-waiting {
+    text-align: center;
+    padding: 30px 10px;
+
+    .morpion-loader {
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top: 4px solid #6366f1;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px auto;
+    }
+
+    p {
+        font-size: 1.1rem;
+        color: #cbd5e1;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
