@@ -1,64 +1,86 @@
-@use "../base/variables" as *;
-
 .message {
-    max-width: 65%;
-    padding: 12px 14px;
-    border-radius: $radius;
-    background: $color-surface;
-    box-shadow: $shadow-sm;
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
+    word-break: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.message:not(.message--self) {
+.message:not(.message--self):not(.message--system) {
     align-self: flex-start;
+    background: #334155;
+    color: #f8fafc;
+    border-bottom-left-radius: 2px;
+
+    .message__author {
+        color: #38bdf8;
+    }
+
+    .message__meta {
+        color: #94a3b8;
+    }
 }
 
 .message--self {
     align-self: flex-end;
-    background: $color-primary;
+    background: #6366f1;
+    color: #ffffff;
+    border-bottom-right-radius: 2px;
 
-    .message__text,
     .message__author {
-        color: #ffffff;
+        color: #e0e7ff;
     }
 
     .message__meta {
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.7);
     }
 }
 
 .message--system {
     align-self: center;
-    background: $color-surface;
-    color: $color-muted;
-    font-size: 13px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 15px;
+    border-radius: 20px;
     box-shadow: none;
+    text-align: center;
+    max-width: 90%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .message__text {
+        color: #94a3b8;
+        font-style: italic;
+        font-size: 0.85rem;
+    }
+
+    .message__meta {
+        display: none;
+    }
 }
 
 .message__meta {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     gap: 15px;
-    font-size: 12px;
-    color: $color-muted;
+    font-size: 0.75rem;
 }
 
 .message__author {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 0.85rem;
 }
 
 .message__text {
-    color: $color-text;
+    font-size: 0.95rem;
     line-height: 1.4;
-    word-break: break-word;
 }
 
 @media (max-width: 768px) {
     .message {
         max-width: 85%;
-        font-size: 15px;
     }
 }
